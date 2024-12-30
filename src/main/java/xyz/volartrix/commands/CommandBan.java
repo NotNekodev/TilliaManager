@@ -42,7 +42,7 @@ public class CommandBan implements CommandExecutor {
 
         long unbanTimeMillis = -1;
         long banTimeMillis = System.currentTimeMillis();
-        storage.set("bans." + playerUUID.toString(), unbanTimeMillis + "|" + reason + "|" + banTimeMillis);
+        storage.set("bans." + playerUUID, unbanTimeMillis + "|" + reason + "|" + banTimeMillis);
 
         sender.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "SUCCESS! " + ChatColor.RESET + "The player " + args[0] + " has been banned for " + reason + ".");
 
