@@ -30,7 +30,7 @@ public class TilliaManagerPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("tempban")).setExecutor(new CommandTempban(storage));
         Objects.requireNonNull(this.getCommand("broadcast")).setExecutor(new CommandBroadcast());
         Objects.requireNonNull(this.getCommand("unban")).setExecutor(new CommandUnban(storage));
-        Objects.requireNonNull(this.getCommand("ban")).setExecutor(new CommandBan());
+        Objects.requireNonNull(this.getCommand("ban")).setExecutor(new CommandBan(storage));
 
         Bukkit.getPluginManager().registerEvents(new BanListener(storage), this);
     }
