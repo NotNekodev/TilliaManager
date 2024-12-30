@@ -6,20 +6,38 @@ author: NotNekodev
 website: https://papermc.io
 api-version: '1.21.4'
 
+depend: ["PlaceholderAPI", "LuckPerms"]
+
 commands:
   tempban:
     description: Temporarily bans a player
     permission-message: You do not have permission to use this command.
     permission: bozo.tempban
-  broadcast:
-    description: Broadcasts a message to all players
-    permission-message: You do not have permission to use this command.
-    permission: bozo.broadcast
   unban:
     description: Unbans a player
     permission-message: You do not have permission to use this command.
     permission: bozo.unban
+    aliases:
+      - pardon
   ban:
     description: Bans a player
     permission-message: You do not have permission to use this command.
     permission: bozo.ban
+  staffchat:
+    description: Sends a message to all staff members
+    permission-message: You do not have permission to use this command.
+    permission: bozo.staffchat
+    aliases:
+      - sc
+  tp2p:
+    description: Teleports a player to another player
+    permission-message: You do not have permission to use this command.
+    permission: bozo.tp2p
+    aliases:
+      - tptop
+      - tptoplayer
+      - teleport2player
+  spawn:
+    description: Teleports a player to the spawn
+    permission-message: You do not have permission to use this command.
+    permission: bozo.spawn

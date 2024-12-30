@@ -1,6 +1,7 @@
 package xyz.volartrix.listeners;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -11,6 +12,7 @@ import xyz.volartrix.util.Storage;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.UUID;
 
 public class BanListener implements Listener {
@@ -34,6 +36,8 @@ public class BanListener implements Listener {
                 long unbanTimeMillis = Long.parseLong(parts[0]);
                 String reason = parts[1];
                 long banTimeMillis = Long.parseLong(parts[2]);
+
+                Objects.requireNonNull(Bukkit.getPlayer("Nekodev")).sendMessage("User: " + player.getName() + "\n Reason: " + reason + "\n Ban Time: " + banTimeMillis + "\n Unban Time: " + unbanTimeMillis);
 
                 // Check if the ban is still active
                 long currentTimeMillis = System.currentTimeMillis();
@@ -64,17 +68,9 @@ public class BanListener implements Listener {
                     }
                 } else {
                     // Ban has expired, remove the ban data
-                    storage.remove("bans." + playerUUID.toString());
+                    storage.remove("bans." + playerUUID);
                 }
             }
         }
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
-
-        // Optionally handle any cleanup when the player leaves (e.g., if you need to clear temporary data)
     }
 }
