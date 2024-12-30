@@ -6,7 +6,6 @@ author: NotNekodev
 website: https://papermc.io
 api-version: '1.21.4'
 
-# Replace "kit" with the name of your command.
 commands:
   tempban:
     description: Temporarily bans a player
@@ -16,3 +15,11 @@ commands:
     description: Broadcasts a message to all players
     permission-message: You do not have permission to use this command.
     permission: bozo.broadcast
+  unban:
+    description: Unbans a player
+    permission-message: You do not have permission to use this command.
+    permission: bozo.unban
+  ban:
+    description: Bans a player
+    permission-message: You do not have permission to use this command.
+    permission: bozo.ban

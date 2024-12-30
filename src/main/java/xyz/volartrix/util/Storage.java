@@ -19,7 +19,7 @@ public class Storage {
     // Method to get the value for a given key
     public String get(String key) {
         // Check if the key exists, if not return a default message
-        return storageMap.getOrDefault(key, "Key not found");
+        return storageMap.getOrDefault(key, "ERR_NOTFOUND");
     }
 
     public void remove(String key) {

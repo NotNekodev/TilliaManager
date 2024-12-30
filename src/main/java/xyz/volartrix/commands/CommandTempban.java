@@ -1,7 +1,9 @@
 package xyz.volartrix.commands;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.volartrix.util.Storage;
 
+import java.lang.annotation.Target;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -33,11 +36,11 @@ public class CommandTempban implements CommandExecutor {
          String[] subargs = Arrays.copyOfRange(args, 2, args.length);
          String reason = String.join(" ", subargs);
 
-         Player target = sender.getServer().getPlayer(args[0]);
-         if (target == null) {
-             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RESET + "The player " + args[0] + " does not exist or has never joined before.");
-             return false;
-         }
+        OfflinePlayer target = sender.getServer().getOfflinePlayer(args[0]);
+        if (target == null) {
+            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RESET + "The player " + args[0] + " does not exist or has never joined before.");
+            return false;
+        }
 
          UUID playerUUID = target.getUniqueId();
 
@@ -77,7 +80,7 @@ public class CommandTempban implements CommandExecutor {
 
         // Save ban information using Storage
         String banInfo = unbanTime + "|" + reason + "|" + currentTime;
-        storage.set("bans." + playerUUID.toString(), banInfo);
+        storage.set("bans." + playerUUID, banInfo);
 
         // Format the unban time and ban time
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, h:mm[ a] yyyy");
@@ -88,11 +91,12 @@ public class CommandTempban implements CommandExecutor {
         String formattedBanTime = banDateTime.format(formatter);
 
         // Notify the executor
-        sender.sendMessage("§aYou have banned " + target.getName() + " (UUID: " + playerUUID + ") until " + formattedUnbanTime + " for reason: " + reason + ".");
+        sender.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "SUCCESS!" + ChatColor.RESET + " The player " + args[0] + " has been banned for " + duration + unit + " for " + reason + ".");
 
         // Kick the player if online
         if (target.isOnline()) {
-            target.kick(Component.text("§cYou have been banned from this server!\n\n§fReason: " + reason + "\n§fBanned on: " + formattedBanTime + "\n§fUnban date: " + formattedUnbanTime + "\n\n§cIf you believe this is a mistake, please contact support."));
+            Player oTarget = Bukkit.getPlayer(playerUUID);
+            oTarget.kick(Component.text("§cYou have been banned from this server!\n\n§fReason: " + reason + "\n§fBanned on: " + formattedBanTime + "\n§fUnban date: " + formattedUnbanTime + "\n\n§cIf you believe this is a mistake, please contact support."));
         }
 
         return true;
