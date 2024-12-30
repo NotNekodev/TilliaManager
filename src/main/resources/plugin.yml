@@ -1,0 +1,18 @@
+name: TilliaManager
+version: 1.0.0
+main: xyz.volartrix.TilliaManagerPlugin
+description: Tillia Server Manager Plugin
+author: NotNekodev
+website: https://papermc.io
+api-version: '1.21.4'
+
+# Replace "kit" with the name of your command.
+commands:
+  tempban:
+    description: Temporarily bans a player
+    permission-message: You do not have permission to use this command.
+    permission: bozo.tempban
+  broadcast:
+    description: Broadcasts a message to all players
+    permission-message: You do not have permission to use this command.
+    permission: bozo.broadcast
