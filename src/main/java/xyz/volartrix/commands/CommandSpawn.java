@@ -14,7 +14,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.volartrix.TilliaManagerPlugin;
-import xyz.volartrix.util.ConfigHelper;
 
 public class CommandSpawn implements CommandExecutor {
     private final FileConfiguration config;
