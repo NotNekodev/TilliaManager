@@ -15,11 +15,15 @@ public class Storage {
     }
 
     public String get(String key) {
-        // Check if the key exists, if not return a default message
         return storageMap.getOrDefault(key, "ERR_NOTFOUND");
     }
 
     public void remove(String key) {
         storageMap.remove(key);
     }
+
+    public HashMap<String, String> getStorageMap() {
+        return storageMap;
+    }
 }
+

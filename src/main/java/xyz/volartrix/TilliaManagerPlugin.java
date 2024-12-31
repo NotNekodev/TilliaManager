@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.volartrix.commands.*;
 import xyz.volartrix.listeners.BanListener;
 import xyz.volartrix.listeners.ChatListener;
+import xyz.volartrix.tabcompleters.*;
 import xyz.volartrix.util.Storage;
 
 import java.util.Objects;
@@ -26,10 +27,16 @@ public class TilliaManagerPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("tempban")).setExecutor(new CommandTempban(storage));
         Objects.requireNonNull(this.getCommand("unban")).setExecutor(new CommandUnban(storage));
         Objects.requireNonNull(this.getCommand("ban")).setExecutor(new CommandBan(storage));
-
         Objects.requireNonNull(this.getCommand("staffchat")).setExecutor(new CommandStaffchat());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new CommandSpawn());
         Objects.requireNonNull(this.getCommand("tp2p")).setExecutor(new CommandTP2P());
+
+        Objects.requireNonNull(this.getCommand("ban")).setTabCompleter(new BanCommandCompleter());
+        Objects.requireNonNull(this.getCommand("spawn")).setTabCompleter(new SpawnCommandCompleter());
+        Objects.requireNonNull(this.getCommand("staffchat")).setTabCompleter(new StaffChatCommandCompleter());
+        Objects.requireNonNull(this.getCommand("tempban")).setTabCompleter(new TempbanCommandCompleter());
+        Objects.requireNonNull(this.getCommand("tp2p")).setTabCompleter(new TP2PCommandCompleter());
+        Objects.requireNonNull(this.getCommand("unban")).setTabCompleter(new UnbanCommandCompleter(storage));
 
         Bukkit.getPluginManager().registerEvents(new BanListener(storage), this);
         Bukkit.getPluginManager().registerEvents(this, this);
