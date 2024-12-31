@@ -3,7 +3,7 @@ version: 1.0.0
 main: xyz.volartrix.TilliaManagerPlugin
 description: Tillia Server Manager Plugin
 author: NotNekodev
-website: https://papermc.io
+website: https://volartrix.xyz
 api-version: '1.21.4'
 
 depend: ["PlaceholderAPI", "LuckPerms"]
@@ -17,8 +17,6 @@ commands:
     description: Unbans a player
     permission-message: You do not have permission to use this command.
     permission: bozo.unban
-    aliases:
-      - pardon
   ban:
     description: Bans a player
     permission-message: You do not have permission to use this command.
@@ -33,10 +31,6 @@ commands:
     description: Teleports a player to another player
     permission-message: You do not have permission to use this command.
     permission: bozo.tp2p
-    aliases:
-      - tptop
-      - tptoplayer
-      - teleport2player
   spawn:
     description: Teleports a player to the spawn
     permission-message: You do not have permission to use this command.

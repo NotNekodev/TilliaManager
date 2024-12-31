@@ -2,7 +2,6 @@ package xyz.volartrix;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -22,8 +21,6 @@ public class TilliaManagerPlugin extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
-        FileConfiguration config = getConfig();
-
         Storage storage = new Storage();
 
         Objects.requireNonNull(this.getCommand("tempban")).setExecutor(new CommandTempban(storage));
@@ -31,7 +28,7 @@ public class TilliaManagerPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("ban")).setExecutor(new CommandBan(storage));
 
         Objects.requireNonNull(this.getCommand("staffchat")).setExecutor(new CommandStaffchat());
-        Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new CommandSpawn(config));
+        Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new CommandSpawn());
         Objects.requireNonNull(this.getCommand("tp2p")).setExecutor(new CommandTP2P());
 
         Bukkit.getPluginManager().registerEvents(new BanListener(storage), this);

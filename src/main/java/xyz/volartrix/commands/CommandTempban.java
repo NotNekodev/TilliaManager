@@ -1,8 +1,9 @@
 package xyz.volartrix.commands;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,15 +12,15 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.volartrix.util.Storage;
 
-import java.lang.annotation.Target;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CommandTempban implements CommandExecutor {
 
-    private Storage storage;
+    private final Storage storage;
 
     public CommandTempban(Storage storage) {
         this.storage = storage;
@@ -27,9 +28,16 @@ public class CommandTempban implements CommandExecutor {
 
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
          if (args.length < 3) {
-             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Wrong Usage!" + ChatColor.RESET +  "Usage:  /tempban <player> <duration>[unit: s|m|h|d|w|y] <reason>");
+             sender.sendMessage(
+                     Component.text("Wrong Usage!")
+                             .color(NamedTextColor.RED)
+                             .decorate(TextDecoration.BOLD)
+                             .append(Component.text(" Usage: /tempban <player> <duration>[unit: s|m|h|d|w|y] <reason>")
+                                     .color(NamedTextColor.WHITE)
+                                     .decoration(TextDecoration.BOLD, false))
+             );
              return false;
          }
 
@@ -37,17 +45,13 @@ public class CommandTempban implements CommandExecutor {
          String reason = String.join(" ", subargs);
 
         OfflinePlayer target = sender.getServer().getOfflinePlayer(args[0]);
-        if (target == null) {
-            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RESET + "The player " + args[0] + " does not exist or has never joined before.");
-            return false;
-        }
 
-         UUID playerUUID = target.getUniqueId();
+        UUID playerUUID = target.getUniqueId();
 
          String durationArg = args[1];
          int duration = Integer.parseInt(durationArg.replaceAll("[^0-9]", ""));
          String unit = durationArg.replaceAll("[0-9]", "").toLowerCase();
-         int durationInSeconds = 0;
+         int durationInSeconds;
 
         switch (unit) {
             case "s":  // seconds
@@ -69,7 +73,14 @@ public class CommandTempban implements CommandExecutor {
                 durationInSeconds = duration * 365 * 24 * 60 * 60;
                 break;
             default:
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR!" + ChatColor.RESET  + "Invalid time unit! Use s (seconds), m (minutes), h (hours), d (days), w (weeks), or y (years).");
+                sender.sendMessage(
+                        Component.text("ERROR!")
+                                .color(NamedTextColor.RED)
+                                .decorate(TextDecoration.BOLD)
+                                .append(Component.text(" Invalid time unit! Use s (seconds), m (minutes), h (hours), d (days), w (weeks), or y (years).")
+                                        .color(NamedTextColor.WHITE)
+                                        .decoration(TextDecoration.BOLD, false))
+                );
                 return false;
         }
 
@@ -90,13 +101,18 @@ public class CommandTempban implements CommandExecutor {
         String formattedUnbanTime = unbanDateTime.format(formatter);
         String formattedBanTime = banDateTime.format(formatter);
 
-        // Notify the executor
-        sender.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "SUCCESS!" + ChatColor.RESET + " The player " + args[0] + " has been banned for " + duration + unit + " for " + reason + ".");
+        sender.sendMessage(
+                Component.text("SUCCESS!")
+                        .color(NamedTextColor.GREEN)
+                        .decorate(TextDecoration.BOLD)
+                        .append(Component.text(" The player " + args[0] + " has been banned for " + duration + unit + " for " + reason + ".")
+                                .color(NamedTextColor.WHITE)
+                                .decoration(TextDecoration.BOLD, false))
+        );
 
-        // Kick the player if online
         if (target.isOnline()) {
             Player oTarget = Bukkit.getPlayer(playerUUID);
-            oTarget.kick(Component.text("§cYou have been banned from this server!\n\n§fReason: " + reason + "\n§fBanned on: " + formattedBanTime + "\n§fUnban date: " + formattedUnbanTime + "\n\n§cIf you believe this is a mistake, please contact support."));
+            Objects.requireNonNull(oTarget).kick(Component.text("§cYou have been banned from this server!\n\n§fReason: " + reason + "\n§fBanned on: " + formattedBanTime + "\n§fUnban date: " + formattedUnbanTime + "\n\n§cIf you believe this is a mistake, please contact support."));
         }
 
         return true;

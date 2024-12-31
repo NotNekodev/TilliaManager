@@ -1,8 +1,9 @@
 package xyz.volartrix.commands;
 
-import me.clip.placeholderapi.libs.kyori.adventure.platform.facet.Facet;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,17 +19,51 @@ public class CommandTP2P implements CommandExecutor {
             Player target = Bukkit.getPlayer(args[0]);
             if (target != null) {
                 if (!target.equals(player)) {
+                    assert player != null;
                     player.teleport(target.getLocation());
-                    player.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + ".");
-                    target.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.GREEN + " has teleported to you.");
+                    player.sendMessage(
+                            Component.text("You have been teleported to ")
+                                    .color(NamedTextColor.GREEN)
+                                    .append(Component.text(target.getName())
+                                            .color(NamedTextColor.YELLOW))
+                                    .append(Component.text(".")
+                                            .color(NamedTextColor.GREEN))
+                    );
+                    target.sendMessage(
+                            Component.text(player.getName())
+                                    .color(NamedTextColor.YELLOW)
+                                    .append(Component.text(" has teleported to you.")
+                                            .color(NamedTextColor.GREEN))
+                    );
                 } else {
-                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR!" + ChatColor.RESET + " You cannot teleport to yourself.");
+                    player.sendMessage(
+                            Component.text("ERROR!")
+                                    .color(NamedTextColor.RED)
+                                    .decorate(TextDecoration.BOLD)
+                                    .append(Component.text(" You cannot teleport to yourself.")
+                                            .color(NamedTextColor.WHITE)
+                                            .decoration(TextDecoration.BOLD, false))
+                    );
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR!" + ChatColor.RESET + " Player not found.");
-            }
+                assert player != null;
+                player.sendMessage(
+                        Component.text("ERROR!")
+                                .color(NamedTextColor.RED)
+                                .decorate(TextDecoration.BOLD)
+                                .append(Component.text(" Player not found.")
+                                        .color(NamedTextColor.WHITE)
+                                        .decoration(TextDecoration.BOLD, false))
+                );            }
         } else {
-            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Wrong Usage!" + ChatColor.RESET +  "Usage:  /tp2p <player>");
+            sender.sendMessage(
+                    Component.text("Wrong Usage!")
+                            .color(NamedTextColor.RED)
+                            .decorate(TextDecoration.BOLD)
+                            .append(Component.text(" Usage: /tp2p <player>")
+                                    .color(NamedTextColor.WHITE)
+                                    .decoration(TextDecoration.BOLD, false))
+            );
         }
 
         return true;
