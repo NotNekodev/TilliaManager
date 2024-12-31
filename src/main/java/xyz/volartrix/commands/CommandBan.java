@@ -40,7 +40,7 @@ public class CommandBan implements CommandExecutor {
 
         UUID playerUUID = target.getUniqueId();
 
-        long unbanTimeMillis = -1;
+        long unbanTimeMillis = 9223372036854775807L;
         long banTimeMillis = System.currentTimeMillis();
         storage.set("bans." + playerUUID, unbanTimeMillis + "|" + reason + "|" + banTimeMillis);
 

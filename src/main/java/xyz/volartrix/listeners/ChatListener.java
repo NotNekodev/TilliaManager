@@ -29,7 +29,7 @@ public class ChatListener implements Listener {
 
         // Check if the sender is in the staff chat
         if (staffChatEnabled.contains(player)) {
-            Component message = new StaffChatRenderer().render(player, Component.text(player.getName()), event.message(), Audience.empty());
+            Component message = new StaffChatRenderer().render(player, Component.text(player.getName()), event.message(), Audience.audience(staffChatEnabled));
             for (Player p : staffChatEnabled) {
                 p.sendMessage(message);
             }
